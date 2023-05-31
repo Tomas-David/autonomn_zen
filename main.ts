@@ -6,8 +6,7 @@ const pinC = DigitalPin.P15
 const pinL = DigitalPin.P14
 const pinR = DigitalPin.P13
 
-const encoderL = DigitalPin.P12
-const encoderR = DigitalPin.P8
+
 //motory
 const m1 = PCAmotor.Motors.M1
 const m4 = PCAmotor.Motors.M4
@@ -48,9 +47,7 @@ basic.forever(function () {
     let r: boolean = (whiteLine ^ pins.digitalReadPin(pinR)) == 0 ? false : true;
 
     
-    basic.pause(100)
-    console.log(encoderL)
-    console.log(encoderR)
+    
 
     basic.pause(100)
     
