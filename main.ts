@@ -1,3 +1,5 @@
+// jede po černý je zapotřebí udělat zatáčení 
+
 
 //piny
 const pinC = DigitalPin.P15
@@ -13,7 +15,13 @@ pins.setPull(pinC, PinPullMode.PullNone)
 pins.setPull(pinL, PinPullMode.PullNone)
 pins.setPull(pinR, PinPullMode.PullNone)
 
+function car_motor(lw: number = 0, rw: number = 0) {
+    const ul = Math.map(lw, -100, 100, -255, 255)
+    const ur = Math.map(rw, -100, 100, -215, 215)
+    PCAmotor.MotorRun(PCAmotor.Motors.M1, ur)
+    PCAmotor.MotorRun(PCAmotor.Motors.M4, ul)
 
+}
 
 
 basic.forever(function () {
@@ -24,11 +32,9 @@ basic.forever(function () {
     basic.pause(100)
     
     if (c === true || l === true || r === true){
-        PCAmotor.MotorRun(m1, 100)
-        PCAmotor.MotorRun(m4, -200)
+        car_motor(-200,100)
     }else{
-        PCAmotor.MotorRun(m1, 0)
-        PCAmotor.MotorRun(m4, 0)
+        car_motor(0,0)
     }
 
 })
