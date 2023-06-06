@@ -25,7 +25,7 @@ function car_motor(lw: number = 0, rw: number = 0) {
     const ul = Math.map(lw, -100, 100, -255, 255)
     const ur = Math.map(rw, -100, 100, -215, 215)
     PCAmotor.MotorRun(PCAmotor.Motors.M1, ur)
-    PCAmotor.MotorRun(PCAmotor.Motors.M4, ul)
+    PCAmotor.MotorRun(PCAmotor.Motors.M4, -ul)
 
 }
 
@@ -54,15 +54,15 @@ basic.forever(function () {
 
     // rovná jízda po čáře
     if (c === true && l === true && r === true || c === true && l != true && r != true){
-        car_motor(-125,75)
+        car_motor(125,65)
     }else if (c === true && l === true && r === false){
-        car_motor(-75, 100)
+        car_motor(100, 65)
     }else if(c === true && l === false && r === true){
-        car_motor(-200,75)
+        car_motor(100,65)
     } else if (c === false && l === false && r === true){
-        car_motor(-200, 75)
+        car_motor(125, 50)
     } else if(c === true && l === true && r === false){
-        car_motor(-75, 100)
+        car_motor(125, 50)
     }else{
         car_motor(0,0)
     }
