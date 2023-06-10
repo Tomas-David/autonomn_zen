@@ -188,7 +188,7 @@ basic.forever(function () {
        l = isOnLineL()
        r = isOnLineR()
 
-       if(c === true && l === true && r === true){
+       if(c === false && l === false && r === false){
            car_motor(0,0)
        }
     }
