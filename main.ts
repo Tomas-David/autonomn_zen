@@ -179,10 +179,10 @@ basic.forever(function () {
     } else if (c === false && l === true && r === false){
         car_motor(50, 65)
     } else if(c === true && l === false && r === true){
-        car_motor(125, 26)
+        car_motor(125, 40)
 
     } else if (c === false && l === false && r === true){
-        car_motor(125, 26)
+        car_motor(125, 40)
     }else{
        c = isOnLineC()
        l = isOnLineL()
