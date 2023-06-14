@@ -17,9 +17,7 @@ let dataL: any[] = []
 let dataC: number[] = []
 let dataR: any[] = []
 
-input.onButtonPressed(Button.A, function() {
-    radio.sendNumber(1)
-})
+
 
 pins.setPull(pinC, PinPullMode.PullNone)
 pins.setPull(pinL, PinPullMode.PullNone)
@@ -187,7 +185,7 @@ basic.forever(function () {
     appendValuesL(l)
     appendValuesR(r)
 
-
+if(turn === true){
     // rovná jízda po čáře
     if (c === true && l === true && r === true || c === true && l != true && r != true) {
         car_motor(125, 65)
@@ -210,5 +208,9 @@ basic.forever(function () {
         if (c === false && l === false && r === false) {
             car_motor(0, 0)
         }
+
     }
+}
+   
+    
 })
