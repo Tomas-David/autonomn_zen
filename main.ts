@@ -17,7 +17,9 @@ let dataL: any[] = []
 let dataC: number[] = []
 let dataR: any[] = []
 
-
+input.onButtonPressed(Button.A, function() {
+    radio.sendNumber(1)
+})
 
 pins.setPull(pinC, PinPullMode.PullNone)
 pins.setPull(pinL, PinPullMode.PullNone)
@@ -34,14 +36,14 @@ function car_motor(lw: number = 0, rw: number = 0) {
 
 
 
-function isOnLineC(){
+function isOnLineC() {
     let value: number = 0
-      
-    for (let i = 0; i < 5; i++) {
+
+    for (let i = 0; i < 3; i++) {
         value += dataC[i]
     }
 
-    if (Math.round(value / 5) === 1) {
+    if (Math.round(value / 3) === 1) {
         return false
     } else {
         return true
@@ -51,12 +53,12 @@ function isOnLineC(){
 
 function isOnLineL() {
     let value: number = 0
-    
-    for (let i = 0; i < 5; i++) {
+
+    for (let i = 0; i < 3; i++) {
         value += dataL[i]
     }
 
-    if (Math.round(value / 5) === 1) {
+    if (Math.round(value / 3) === 1) {
         return false
     } else {
         return true
@@ -67,13 +69,13 @@ function isOnLineL() {
 function isOnLineR() {
     let value: number = 0
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
         value += dataR[i]
     }
 
-    if (Math.round(value / 5) === 1){
+    if (Math.round(value / 3) === 1) {
         return false
-    }else{
+    } else {
         return true
     }
 
@@ -81,11 +83,11 @@ function isOnLineR() {
 }
 
 
-function appendValuesC(c : boolean){
+function appendValuesC(c: boolean) {
     let count: number = 0
     let convertC: number = 0
 
-    while (count <= 5) {
+    while (count <= 3) {
         if (c === true) {
             convertC = 1
             dataC.push(convertC)
@@ -95,7 +97,7 @@ function appendValuesC(c : boolean){
         }
 
 
-        if (dataC.length > 5) {
+        if (dataC.length > 3) {
             dataC.pop()
         }
 
@@ -110,7 +112,7 @@ function appendValuesL(l: boolean) {
     let count: number = 0
     let convertL: number = 0
 
-    while (count <= 5) {
+    while (count <= 3) {
         if (l === true) {
             convertL = 1
             dataL.push(convertL)
@@ -120,7 +122,7 @@ function appendValuesL(l: boolean) {
         }
 
 
-        if (dataL.length > 5) {
+        if (dataL.length > 3) {
             dataL.pop()
         }
 
@@ -134,7 +136,7 @@ function appendValuesR(r: boolean) {
     let count: number = 0
     let convertR: number = 0
 
-    while (count <= 5) {
+    while (count <= 3) {
         if (r === true) {
             convertR = 1
             dataL.push(convertR)
@@ -144,7 +146,7 @@ function appendValuesR(r: boolean) {
         }
 
 
-        if (dataR.length > 5) {
+        if (dataR.length > 3) {
             dataR.pop()
         }
 
@@ -153,49 +155,27 @@ function appendValuesR(r: boolean) {
     return dataR
 }
 
-
-
-
-
-
-
-basic.forever(function () {
-    let c: boolean = (whiteLine ^ pins.digitalReadPin(pinC)) == 0 ? false : true ;
-    let l: boolean = (whiteLine ^ pins.digitalReadPin(pinL)) == 0 ? false : true;
-    let r: boolean = (whiteLine ^ pins.digitalReadPin(pinR)) == 0 ? false : true;
-
-    appendValuesC(c)
-    appendValuesL(l)
-    appendValuesR(r)
+let turn = false
+radio.onReceivedNumber(function (receivedNumber: number) {
     
-
-    // rovná jízda po čáře
-    if (c === true && l === true && r === true || c === true && l != true && r != true){
-        car_motor(125,65)
-    }else if (c === true && l === false && r === false){
-        car_motor(125, 65)
-    }else if(c === true && l === true && r === false){
-        car_motor(50,65)
-    } else if (c === false && l === true && r === false){
-        car_motor(50, 65)
-    } else if(c === true && l === false && r === true){
-        car_motor(125, 40)
-
-    } else if (c === false && l === false && r === true){
-        car_motor(125, 40)
-    }else{
-       c = isOnLineC()
-       l = isOnLineL()
-       r = isOnLineR()
-
-       if(c === false && l === false && r === false){
-           car_motor(0,0)
-       }
+    switch (receivedNumber) {
+        case 1:
+            turn = true
+            basic.pause(200)
+            car_motor(0,90)
+            basic.pause(500)
+            turn = false
+            break
+        case 2:
+            turn = true
+            basic.pause(200)
+            car_motor(90, 0)
+            basic.pause(500)
+            turn = false
+            break
     }
-
-    
-    
 })
 
 
 
+basic.forever(function () {
