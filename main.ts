@@ -179,3 +179,36 @@ radio.onReceivedNumber(function (receivedNumber: number) {
 
 
 basic.forever(function () {
+    let c: boolean = (whiteLine ^ pins.digitalReadPin(pinC)) == 0 ? false : true;
+    let l: boolean = (whiteLine ^ pins.digitalReadPin(pinL)) == 0 ? false : true;
+    let r: boolean = (whiteLine ^ pins.digitalReadPin(pinR)) == 0 ? false : true;
+
+    appendValuesC(c)
+    appendValuesL(l)
+    appendValuesR(r)
+
+
+    // rovná jízda po čáře
+    if (c === true && l === true && r === true || c === true && l != true && r != true) {
+        car_motor(125, 65)
+    } else if (c === true && l === false && r === false) {
+        car_motor(125, 65)
+    } else if (c === true && l === true && r === false) {
+        car_motor(50, 65)
+    } else if (c === false && l === true && r === false) {
+        car_motor(50, 65)
+    } else if (c === true && l === false && r === true) {
+        car_motor(125, 40)
+
+    } else if (c === false && l === false && r === true) {
+        car_motor(125, 40)
+    } else {
+        c = isOnLineC()
+        l = isOnLineL()
+        r = isOnLineR()
+
+        if (c === false && l === false && r === false) {
+            car_motor(0, 0)
+        }
+    }
+})
